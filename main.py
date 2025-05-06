@@ -8,9 +8,11 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 #delta time, setted below
-dt = 0
+
 
 def main():
+    
+    dt = 0
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -27,6 +29,7 @@ def main():
             
         pygame.Surface.fill(screen, (0,0,0))
         player.draw(screen)
+        player.update(dt)
         pygame.display.flip()
 
         #set framerate to 60
