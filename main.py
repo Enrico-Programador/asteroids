@@ -1,7 +1,10 @@
 #allows us to use code from pygame library
+import sys
 import pygame
+from asteroid import Asteroid
 from constants import *
 from player import Player
+from asteroidfield import AsteroidField
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -21,10 +24,15 @@ def main():
 
     drawable = pygame.sprite.Group()
     updatable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
 
     player = Player(x,y)
+    asteroidfield = AsteroidField()
+
   #game-loop:
     while True:
 
@@ -35,7 +43,14 @@ def main():
             
         pygame.Surface.fill(screen, (0,0,0))
         updatable.update(dt)
-        
+
+        for asteroid in asteroids:
+            gameover = asteroid.colision(player)
+            if gameover == True:
+                print("GAME OVER!!!")
+                sys.exit()
+
+
         for obj in drawable:
             obj.draw(screen)
 
@@ -43,7 +58,7 @@ def main():
 
         #set framerate to 60
         dt = clock.tick(60)/1000
-        print(dt)
+
 
 if __name__ == "__main__":
     main()
