@@ -35,7 +35,7 @@ def main():
 
     player = Player(x,y)
     asteroidfield = AsteroidField()
-
+    points = 0
   #game-loop:
     while True:
 
@@ -57,6 +57,8 @@ def main():
             for shot in shots:
                 collision = asteroid.colision(shot)
                 if collision == True:
+                    points += 1
+                    print(f"Points: {points}")
                     asteroid.split()
                     shot.kill()
                     break
