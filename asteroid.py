@@ -5,6 +5,8 @@ from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS
 import random
 
+import gamestate
+
 
 
 class Asteroid(CircleShape):

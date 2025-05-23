@@ -6,6 +6,7 @@ from constants import *
 from player import Player
 from shot import Shot
 from asteroidfield import AsteroidField
+from gamestate import GameState
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -13,9 +14,8 @@ clock = pygame.time.Clock()
 
 #delta time, setted below
 
-
-def main():
-    
+def main():             
+     
     dt = 0
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -32,10 +32,11 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
+    GameState.containers = (updatable)
 
     player = Player(x,y)
     asteroidfield = AsteroidField()
-    points = 0
+    gamestate = GameState()
   #game-loop:
     while True:
 
@@ -57,10 +58,15 @@ def main():
             for shot in shots:
                 collision = asteroid.colision(shot)
                 if collision == True:
-                    points += 1
-                    print(f"Points: {points}")
+                    gamestate.pointcounter()
                     asteroid.split()
                     shot.kill()
+
+                    if gamestate.difficulty_counter >= 1:  #this increases dificulty every 50 points
+                        asteroidfield.speed_multiplier *= 1.2 #increase speed of all future asteroids
+                        gamestate.difficulty_counter = 0 #reset the counter to update every 50 points
+                        for asteroid in asteroids:  #increases speed of all existing asteroids
+                            asteroid.velocity *= 1.2
                     break
 
 
